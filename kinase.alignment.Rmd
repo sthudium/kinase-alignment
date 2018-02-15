@@ -1,0 +1,57 @@
+---
+title: "Kinase Analysis"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Perform a blast search of the PDB database to identify related structures to our query Adenylate kinase sequence
+
+```{r, echo=FALSE, cache=TRUE}
+library(bio3d)
+
+aa <- get.seq("1ake_A")
+
+#Blast or hmmer search 
+
+blast <- hmmer(aa)
+
+blast
+
+```
+
+Plot the data
+
+```{r}
+hits <- plot(blast)
+```
+
+View the first 6 protein names of the output
+```{r}
+head(hits$pdb.id)
+```
+
+Fetch pdbs
+
+```{r}
+files <- get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE) 
+```
+
+align the structures
+
+```{r}
+pdbs_aln <- pdbaln(files)
+```
+
+Vector containing PDB codes
+```{r}
+ids <- basename.pdb(pdbs_aln$id)
+```
+
+Draw the alignment
+```{r}
+plot(pdbs_aln, labels=ids)
+```
+
