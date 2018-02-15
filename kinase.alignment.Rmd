@@ -1,5 +1,5 @@
 ---
-title: "Kinase Analysis"
+title: "Kinase Alignment Analysis"
 output: github_document
 ---
 
